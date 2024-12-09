@@ -49,4 +49,14 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
+
+    @ExceptionHandler(value = FileStorageException.class)
+    public ResponseEntity<ApiResponse<?>> handleFileStorageException(FileStorageException e) {
+        log.error("Exception caught", e);
+        ApiResponse<?> response = ApiResponse.<String>builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(e.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
 }
